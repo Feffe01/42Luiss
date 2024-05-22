@@ -12,16 +12,6 @@
 
 #include "get_next_line_bonus.h"
 
-int	ft_get_matrix(char **container, int fd)
-{
-	int	i;
-
-	i = 0;
-	while (container[i] && container[i] != fd)
-		i++;
-	container[i] = fd;
-}
-
 char	*ft_strchr(const char *s, int c)
 {
 	const char	*f;

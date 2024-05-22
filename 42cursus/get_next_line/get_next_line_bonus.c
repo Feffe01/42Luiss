@@ -12,16 +12,6 @@
 
 #include "get_next_line_bonus.h"
 
-void ft_set_matrix(char **container, int fd)
-{
-	int	i;
-
-	i = 0;
-	while (container[i] && container[i] != fd)
-		i++;
-	container[i] = fd;
-}
-
 char	*ft_next_line(char *container)
 {
 	int		i;
@@ -94,21 +84,18 @@ char	*ft_read_line(int fd, char *container)
 
 char	*get_next_line(int fd)
 {
-	static char	**container;
+	static char	*container[OPEN_MAX];
 	char		*line;
-	int			i;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
-	ft_set_matrix(container, fd);
-	i = ft_get_matrix(container, fd);
-	container[i] = ft_read_line(fd, container[i]);
-	if (!container[i] || container[i][0] == 0)
+	container[fd] = ft_read_line(fd, container[fd]);
+	if (!container[fd] || container[fd][0] == 0)
 	{
-		free(container[i]);
+		free(container[fd]);
 		return (NULL);
 	}
-	line = ft_create_line(container[i]);
-	container[i] = ft_next_line(container[i]);
+	line = ft_create_line(container[fd]);
+	container[fd] = ft_next_line(container[fd]);
 	return (line);
 }

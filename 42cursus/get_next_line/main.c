@@ -32,7 +32,7 @@
 #include "get_next_line_bonus.h"
 int main(){
 
-    char* fileName[] = {"1-brouette.txt", "2-otarie.txt"};
+    char* fileName[] = {"12-bigben.txt", "9-linew.txt"};
 
     int fd[] ={open(fileName[0], O_RDWR), open(fileName[1], O_RDWR)};
 

@@ -61,7 +61,6 @@ public class Program
 		
 		System.out.println("\n\n		REMOVING THE SARA -> GIULIO TRANSACTION BY UUID\n");
 
-		//UUID x = UUID.randomUUID();
 		WholeTransList.remove(D.getID());
 		Transaction[] Temp = WholeTransList.toArray();
 		for (int i = 0; i < Temp.length; i++)
