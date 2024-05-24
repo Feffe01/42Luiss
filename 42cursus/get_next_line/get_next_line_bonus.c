@@ -87,7 +87,7 @@ char	*get_next_line(int fd)
 	static char	*container[OPEN_MAX];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	container[fd] = ft_read_line(fd, container[fd]);
 	if (!container[fd] || container[fd][0] == 0)
