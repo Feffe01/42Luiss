@@ -6,7 +6,7 @@
 /*   By: fgiampa <fgiampa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 16:50:54 by fgiampa           #+#    #+#             */
-/*   Updated: 2024/02/23 19:20:24 by fgiampa          ###   ########.fr       */
+/*   Updated: 2024/10/15 20:19:29 by fgiampa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 char	*ft_strrchr(const char *s, int c)
 {
-	int			i;
 	const char	*f;
 
-	i = 0;
 	f = s;
 	while (*f)
 		f++;
