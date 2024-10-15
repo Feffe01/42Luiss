@@ -1,0 +1,3 @@
+[submodule "42cursus/42cursus/so_long/minilibx-linux"]
+	path = 42cursus/42cursus/so_long/minilibx-linux
+	url = git@github.com:42Paris/minilibx-linux.git
