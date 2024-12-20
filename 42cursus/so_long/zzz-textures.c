@@ -1,14 +1,14 @@
 #include "so_long.h"
 
-void	my_mlx_pixel_put(t_data *img, int x, int y, int color)
+void	my_mlx_pixel_put(t_screen *screen, int x, int y, int color)
 {
 	char	*dst;
 
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	dst = screen->addr + (y * screen->line_length + x * (screen->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }
 
-void createGrid(t_data *img, int startingX, int startingY, int width, int height, int color)
+void createGrid(t_screen *screen, int startingX, int startingY, int width, int height, int color)
 {
 	int i;
 	int j;
@@ -20,16 +20,16 @@ void createGrid(t_data *img, int startingX, int startingY, int width, int height
 		while (i < width + startingX)
 		{
 			if (i % CHAR_WIDTH == 0 || j % CHAR_WIDTH == 0)
-				my_mlx_pixel_put(img, i, j, create_trgb(0, 0, 0, 0));
+				my_mlx_pixel_put(screen, i, j, create_trgb(0, 0, 0, 0));
 			else
-				my_mlx_pixel_put(img, i, j, color);
+				my_mlx_pixel_put(screen, i, j, color);
 			i++;
 		}
 		j++;
 	}
 }
 
-void createRectangle(t_data *img, int startingX, int startingY, int width, int height, int color)
+void createRectangle(t_screen *screen, int startingX, int startingY, int width, int height, int color)
 {
 	int i;
 	int j;
@@ -40,14 +40,14 @@ void createRectangle(t_data *img, int startingX, int startingY, int width, int h
 		i = startingX;
 		while (i < width + startingX)
 		{
-			my_mlx_pixel_put(img, i, j, color);
+			my_mlx_pixel_put(screen, i, j, color);
 			i++;
 		}
 		j++;
 	}
 }
 
-void createTriangle(t_data *img, int startingX, int startingY, int width, int height, int color)
+void createTriangle(t_screen *screen, int startingX, int startingY, int width, int height, int color)
 {
 	int i;
 	int j;
@@ -62,14 +62,14 @@ void createTriangle(t_data *img, int startingX, int startingY, int width, int he
 		while (i < width)
 		{
 			if((i >= width / 2 - correction) && (i <= width / 2 + correction))
-				my_mlx_pixel_put(img, i + startingX, j + startingY, color);
+				my_mlx_pixel_put(screen, i + startingX, j + startingY, color);
 			i++;
 		}
 		j++;
 	}
 }
 
-void createCircle(t_data *img, int centreX, int centreY, int r, int color)
+void createCircle(t_screen *screen, int centreX, int centreY, int r, int color)
 {
 	int x;
 	int y;
@@ -81,14 +81,14 @@ void createCircle(t_data *img, int centreX, int centreY, int r, int color)
 		while (x <= centreX + r)
 		{
 			if ((x - centreX) * (x - centreX) + (y - centreY) * (y - centreY) <= r * r)
-				my_mlx_pixel_put(img, x, y, color);
+				my_mlx_pixel_put(screen, x, y, color);
 			x++;
 		}
 		y++;
 	}
 }
 
-void createHexagon(t_data *img, int startingX, int startingY, int r, int color)
+void createHexagon(t_screen *screen, int startingX, int startingY, int r, int color)
 {
 	int i;
 	int j;
@@ -111,14 +111,14 @@ void createHexagon(t_data *img, int startingX, int startingY, int r, int color)
 		while (i < d)
 		{
 			if((i >= centerX - correction) && (i <= centerX + correction))
-				my_mlx_pixel_put(img, i + startingX, j + startingY, color);
+				my_mlx_pixel_put(screen, i + startingX, j + startingY, color);
 			i++;
 		}
 		j++;
 	}
 }
 
-void createGradientRectangle(t_data *img, int startingX, int startingY, int width, int height, unsigned int color)
+void createGradientRectangle(t_screen *screen, int startingX, int startingY, int width, int height, unsigned int color)
 {
 	int i;
 	int j;
@@ -133,7 +133,7 @@ void createGradientRectangle(t_data *img, int startingX, int startingY, int widt
 		i = startingX;
 		while (i < width + startingX)
 		{
-			my_mlx_pixel_put(img, i, j, color);
+			my_mlx_pixel_put(screen, i, j, color);
 			i++;
 		}
 		if ((color + increment) <= (initialColor + 0xFF))
@@ -142,7 +142,7 @@ void createGradientRectangle(t_data *img, int startingX, int startingY, int widt
 	}
 }
 
-void createLGBTRectangle(t_data *img, int startingX, int startingY, int width, int height)
+void createLGBTRectangle(t_screen *screen, int startingX, int startingY, int width, int height)
 {
 	int i;
 	int j;
@@ -171,14 +171,14 @@ void createLGBTRectangle(t_data *img, int startingX, int startingY, int width, i
 		i = startingX;
 		while (i < width + startingX)
 		{
-			my_mlx_pixel_put(img, i, j, color);
+			my_mlx_pixel_put(screen, i, j, color);
 			i++;
 		}
 		j++;
 	}
 }
 
-void createChessTexture(t_data *img, int startingX, int startingY, int width, int height, int multiplier, unsigned int color)
+void createChessTexture(t_screen *screen, int startingX, int startingY, int width, int height, int multiplier, unsigned int color)
 {
 	int i;
 	int j;
@@ -198,14 +198,14 @@ void createChessTexture(t_data *img, int startingX, int startingY, int width, in
 		while (i < width + startingX)
 		{
 			if((i - startingX) / smSquareWidth % 2 == reminder)
-				my_mlx_pixel_put(img, i, j, color);
+				my_mlx_pixel_put(screen, i, j, color);
 			i++;
 		}
 		j++;
 	}
 }
 
-void createDiagonalTexture(t_data *img, int startingX, int startingY, int width, int height, int multiplier, unsigned int color)
+void createDiagonalTexture(t_screen *screen, int startingX, int startingY, int width, int height, int multiplier, unsigned int color)
 {
 	int i;
 	int j;
@@ -221,7 +221,7 @@ void createDiagonalTexture(t_data *img, int startingX, int startingY, int width,
 		while (i < width + startingX)
 		{
 			if((i - startingX + shift) / lineWidth % 2 == 1)
-				my_mlx_pixel_put(img, i, j, color);
+				my_mlx_pixel_put(screen, i, j, color);
 			i++;
 		}
 		shift++;

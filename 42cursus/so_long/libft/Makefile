@@ -10,38 +10,31 @@
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY = all clean fclean re bonus
+.PHONY = all clean fclean re
 
 NAME = libft.a
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-BONUS :=		ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c \
-				ft_lstdelone.c ft_lstiter.c ft_lstlast.c \
-				ft_lstmap.c ft_lstnew.c ft_lstsize.c
-BONUS_OBJS :=	$(BONUS:.c=.o)
-BONUS_BINS :=	$(BONUS:%.c=%)
-
-SRCS :=			$(filter-out ${BONUS}, $(wildcard *.c))
+SRCS :=			$(wildcard *.c) \
+						$(wildcard printf/*.c) \
+						$(wildcard get_next_line/*.c)
 OBJS :=			$(SRCS:.c=.o)
 BINS :=			$(SRCS:%.c=%)
 
 all: ${NAME}
 
 %.o: %.c
-	${CC} ${CFLAGS} -c $^
+	${CC} ${CFLAGS} -c $< -o $@
 
 ${NAME}: ${OBJS}
 	ar rcs $@ $^
 
 clean:
-	rm -rf ${OBJS} ${BONUS_OBJS}
+	rm -rf ${OBJS}
 
 fclean:	clean
-	rm -rf ${BINS} ${NAME} ${BONUS_BINS}
+	rm -rf ${BINS} ${NAME}
 
 re:		fclean all
-
-bonus:	$(OBJS) $(BONUS_OBJS)
-		ar rcs $(NAME) $(OBJS) $(BONUS_OBJS)

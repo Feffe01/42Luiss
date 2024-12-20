@@ -17,8 +17,9 @@ LIBFT = libft/libft.a
 MLX = ./minilibx-linux/
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -lm
 MLXFLAGS = -L ${MLX} -lmlx -I${MLX} -lXext -lX11
+LIBRARIES = ${LIBFT}
 
 BONUS :=		ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c \
 				ft_lstdelone.c ft_lstiter.c ft_lstlast.c \
@@ -37,8 +38,8 @@ all: ${NAME}
 
 ${NAME}: ${OBJS}
 	make -C ${MLX}
-	make bonus -C libft
-	${CC} ${OBJS} ${LIBFT} ${MLXFLAGS} -o ${NAME}
+	make -C libft
+	${CC} ${OBJS} ${LIBRARIES} ${MLXFLAGS} -o ${NAME}
 
 clean:
 	rm -rf ${OBJS} ${BONUS_OBJS}
@@ -53,6 +54,6 @@ re: fclean all
 
 bonus: ${OBJS} ${BONUS_OBJS}
 	make -C ${MLX}
-	make bonus -C libft
+	make -C libft
 	${CC} ${OBJS} ${BONUS_OBJS} ${LIBFT} ${MLXFLAGS} -o ${NAME}
 

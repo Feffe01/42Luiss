@@ -4,6 +4,8 @@
 		"so_long.h": "c",
 		"libft.h": "c",
 		"xlib.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"mlx.h": "c",
+		"get_next_line_bonus.h": "c"
 	}
 }

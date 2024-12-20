@@ -18,7 +18,7 @@ void	ft_putcharofstring(char *str, int j, size_t *c)
 	(*c)++;
 }
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlen_pf(const char *s)
 {
 	size_t	i;
 
@@ -32,7 +32,7 @@ void	ft_putnbr_base_pf(unsigned long nbr, char *base, size_t *c)
 {
 	int	baselen;
 
-	baselen = ft_strlen(base);
+	baselen = ft_strlen_pf(base);
 	if (nbr / baselen != 0)
 	{
 		ft_putnbr_base_pf(nbr / baselen, base, c);

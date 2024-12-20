@@ -22,6 +22,10 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
+char	*get_next_line(int fd);
+
+int	ft_printf(const char *str, ...);
+
 int		ft_atoi(const char *str);
 
 void	ft_bzero(void *dst, size_t n);
