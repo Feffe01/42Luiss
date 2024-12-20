@@ -6,6 +6,7 @@
 		"xlib.h": "c",
 		"stdio.h": "c",
 		"mlx.h": "c",
-		"get_next_line_bonus.h": "c"
+		"get_next_line_bonus.h": "c",
+		"format": "c"
 	}
 }

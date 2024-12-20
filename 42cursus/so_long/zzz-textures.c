@@ -19,7 +19,7 @@ void createGrid(t_screen *screen, int startingX, int startingY, int width, int h
 		i = startingX;
 		while (i < width + startingX)
 		{
-			if (i % CHAR_WIDTH == 0 || j % CHAR_WIDTH == 0)
+			if (i % TILE_WIDTH == 0 || j % TILE_WIDTH == 0)
 				my_mlx_pixel_put(screen, i, j, create_trgb(0, 0, 0, 0));
 			else
 				my_mlx_pixel_put(screen, i, j, color);

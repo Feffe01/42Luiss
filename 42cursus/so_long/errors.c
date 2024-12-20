@@ -2,12 +2,14 @@
 
 void error_filename(char *description)
 {
-	ft_printf("Error\nFile not valid: %s\n", description);
+	write(2, "\033[1;31mError\033[0m", 16);
+	ft_printf("\nFile not valid: %s\n", description);
 	exit(EXIT_FAILURE);
 }
 
 void error_map(char *description)
 {
-	ft_printf("Error\nMap is not valid: %s\n", description);
+	write(2, "\033[1;31mError\033[0m", 16);
+	ft_printf("\nMap is not valid: %s\n", description);
 	exit(EXIT_FAILURE);
 }

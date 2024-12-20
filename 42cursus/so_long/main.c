@@ -1,15 +1,5 @@
 #include "so_long.h"
 
-int array_len(char **array)
-{
-	int i;
-
-	i = 0;
-	while (array[i])
-		i++;
-	return i;
-}
-
 void check_filename (char *filepath)
 {
 	size_t len;
@@ -31,27 +21,19 @@ void check_filename (char *filepath)
 		error_filename("File name not valid");
 }
 
-int render_frame(t_vars* vars)
-{
-	createGrid(&(vars->screen), 0, 0, WIN_WIDTH, WIN_HEIGHT, create_trgb(0, 198, 233, 249));
-	createCircle(&(vars->screen), vars->playerX + CHAR_WIDTH / 2, vars->playerY + CHAR_WIDTH / 2, CHAR_WIDTH / 2, create_trgb(0, 255, 0, 0));
-
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->screen.img, 0, 0);
-	return 0;
-}
-
 int main(int n, char **s)
 {
 	t_vars vars;
 
 	if (n != 2)
 	{
-		ft_printf("Error\nNumber of arguments is not 2\n");
+		write(2, "\033[1;31mError\n\033[0m", 16);
+		ft_printf("Number of arguments is not 2\n");
 		exit(EXIT_FAILURE);
 	}
 
 	check_filename(s[1]);
-	read_map(s[1]);
+	read_map(&vars, s[1]);
 
 	vars.mlx = mlx_init();
 
@@ -62,6 +44,8 @@ int main(int n, char **s)
 	vars.screen.addr = mlx_get_data_addr(vars.screen.img, &vars.screen.bits_per_pixel,
 																		&vars.screen.line_length, &vars.screen.endian);
 
+	vars.playerX = 0;
+	vars.playerY = 0;
 	render_frame(&vars);
 
 	mlx_hook(vars.win, 17, 1L << 17, onCloseWin, &vars);

@@ -10,7 +10,7 @@
 
 # define WIN_WIDTH 1280
 # define WIN_HEIGHT 640
-# define CHAR_WIDTH 64
+# define TILE_WIDTH 64
 
 	typedef struct s_screen
 	{
@@ -28,6 +28,7 @@
 		void *win;
 		int playerX;
 		int playerY;
+		char **map;
 	} t_vars;
 
 	int create_trgb(unsigned int t, unsigned int r, unsigned int g, unsigned int b);
@@ -53,6 +54,7 @@
 	int key_hook(int keycode, t_vars *vars);
 	int mouse_hook(int keycode, t_vars *vars);
 
+	int array_len(char **array);
 	int render_frame(t_vars* vars);
 
 	void go_up(t_vars* vars);
@@ -63,6 +65,7 @@
 	void error_filename(char *description);
 	void error_map(char *description);
 
-	char *read_map(char *filepath);
+	void read_map(t_vars *vars, char *filepath);
+	void check_path (char **map, int playerX, int playerY);
 
 #endif
