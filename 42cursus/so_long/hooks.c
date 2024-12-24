@@ -8,22 +8,15 @@ int onCloseWin(t_vars *vars)
 
 int key_hook(int keycode, t_vars *vars)
 {
-	if (keycode == 65307)
+	if (keycode == ESC_KEY)
 		onCloseWin(vars);
-	if (keycode == 119)
+	if (keycode == W_KEY)
 		go_up(vars);
-	if (keycode == 115)
+	if (keycode == S_KEY)
 		go_down(vars);
-	if (keycode == 97)
+	if (keycode == A_KEY)
 		go_left(vars);
-	if (keycode == 100)
+	if (keycode == D_KEY)
 		go_right(vars);
-	return (0);
-}
-
-int mouse_hook(int keycode, t_vars *vars)
-{
-	keycode = keycode;
-	render_frame(vars);
 	return (0);
 }

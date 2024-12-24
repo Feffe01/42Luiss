@@ -1,6 +1,6 @@
 #include "so_long.h"
 
-int array_len(char **array)
+int matrix_height(char **array)
 {
 	int i;
 
@@ -10,11 +10,15 @@ int array_len(char **array)
 	return i;
 }
 
-int render_frame(t_vars* vars)
+void free_matrix(char **matrix)
 {
-	createGrid(&(vars->screen), 0, 0, WIN_WIDTH, WIN_HEIGHT, create_trgb(0, 198, 233, 249));
-	createCircle(&(vars->screen), vars->playerX + TILE_WIDTH / 2, vars->playerY + TILE_WIDTH / 2, TILE_WIDTH / 2, create_trgb(0, 255, 0, 0));
+	int i;
 
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->screen.img, 0, 0);
-	return 0;
+	i = 0;
+	while (matrix[i])
+	{
+		free(matrix[i]);
+		i++;
+	}
+	free(matrix);
 }
