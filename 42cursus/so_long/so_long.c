@@ -23,8 +23,8 @@ void initialize_vars(t_vars *vars)
 	vars->floorImg = mlx_xpm_file_to_image(vars->mlx, "assets/floor.xpm", &a, &a);
 	vars->playerUp = mlx_xpm_file_to_image(vars->mlx, "assets/playerUp.xpm", &a, &a);
 	vars->playerDown = mlx_xpm_file_to_image(vars->mlx, "assets/playerDown.xpm", &a, &a);
-	vars->playerRight = mlx_xpm_file_to_image(vars->mlx, "assets/playerDown.xpm", &a, &a);
-	vars->playerLeft = mlx_xpm_file_to_image(vars->mlx, "assets/playerDown.xpm", &a, &a);
+	vars->playerRight = mlx_xpm_file_to_image(vars->mlx, "assets/playerRight.xpm", &a, &a);
+	vars->playerLeft = mlx_xpm_file_to_image(vars->mlx, "assets/playerLeft.xpm", &a, &a);
 	vars->wallImg = mlx_xpm_file_to_image(vars->mlx, "assets/wall.xpm", &a, &a);
 	vars->WinWidth = 0;
 	vars->WinHeight = 0;
