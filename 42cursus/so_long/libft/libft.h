@@ -24,7 +24,7 @@ typedef struct s_list
 
 char	*get_next_line(int fd);
 
-int	ft_printf(const char *str, ...);
+int		ft_printf(const char *str, ...);
 
 int		ft_atoi(const char *str);
 

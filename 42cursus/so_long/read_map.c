@@ -1,18 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read_map.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fgiampa <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/28 17:50:51 by fgiampa           #+#    #+#             */
+/*   Updated: 2024/12/28 17:50:53 by fgiampa          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-void update_mapString(char **mapString, char *line)
+void	update_mapstring(char **mapstring, char *line)
 {
-	char *newMapString;
+	char	*newmapstring;
 
-	newMapString = ft_strjoin(*mapString, line);
-	free(*mapString);
-	*mapString = newMapString;
+	newmapstring = ft_strjoin(*mapstring, line);
+	free(*mapstring);
+	*mapstring = newmapstring;
 }
 
-void scan_map(t_vars *vars, char **map)
+void	scan_map(t_vars *vars, char **map)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (map[i])
@@ -22,25 +34,41 @@ void scan_map(t_vars *vars, char **map)
 		{
 			if (map[i][j] == 'P')
 			{
-				vars->playerY = i;
-				vars->playerX = j;
+				vars->p_y = i;
+				vars->p_x = j;
 			}
 			if (map[i][j] == 'C')
 				vars->coins += 1;
 			j++;
 		}
-		vars->WinWidth = j * PIXELS;
+		vars->win_w = j * PIXELS;
 		i++;
 	}
-	vars->WinHeight = i * PIXELS;
+	vars->win_h = i * PIXELS;
 }
 
-void read_map(t_vars *vars, char *filepath)
+void	check_map(t_vars *vars, char *mapstring)
 {
-	int fd;
-	char *mapString;
-	char **map;
-	char *line;
+	char	**map;
+
+	if (!mapstring[0])
+		error_map("Map doesn't exist");
+	ft_printf("map: \n%s\n\n", mapstring);
+	map = ft_split(mapstring, '\n');
+	check_contents(mapstring);
+	check_form(map);
+	check_walls(map);
+	scan_map(vars, map);
+	check_path(mapstring, vars);
+	vars->map = map;
+	free(mapstring);
+}
+
+void	read_map(t_vars *vars, char *filepath)
+{
+	int		fd;
+	char	*mapstring;
+	char	*line;
 
 	fd = open(filepath, O_RDONLY);
 	if (fd == -1)
@@ -49,23 +77,13 @@ void read_map(t_vars *vars, char *filepath)
 		exit(EXIT_FAILURE);
 	}
 	line = "";
-	mapString = ft_calloc(1, 1);
+	mapstring = ft_calloc(1, 1);
 	while (line)
 	{
 		line = get_next_line(fd);
 		if (line != NULL)
-			update_mapString(&mapString, line);
+			update_mapstring(&mapstring, line);
 		free(line);
 	}
-	ft_printf("map: \n%s\n\n", mapString);
-	if (!mapString[0])
-		error_map("Map doesn't exist");
-	map = ft_split(mapString, '\n');
-	check_contents(mapString);
-	check_form(map);
-	check_walls(map);
-	scan_map(vars, map);
-	check_path(mapString, vars);
-	vars->map = map;
-	free(mapString);
+	check_map(vars, mapstring);
 }

@@ -17,13 +17,11 @@ LIBFT = libft/libft.a
 MLX = ./minilibx-linux/
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -lm
+CFLAGS = -Wall -Wextra -Werror
 MLXFLAGS = -L ${MLX} -lmlx -I${MLX} -lXext -lX11
 LIBRARIES = ${LIBFT}
 
-BONUS :=		ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c \
-				ft_lstdelone.c ft_lstiter.c ft_lstlast.c \
-				ft_lstmap.c ft_lstnew.c ft_lstsize.c
+BONUS :=		bonus.c
 BONUS_OBJS :=	$(BONUS:.c=.o)
 BONUS_BINS :=	$(BONUS:%.c=%)
 

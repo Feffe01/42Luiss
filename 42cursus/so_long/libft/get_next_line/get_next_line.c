@@ -23,7 +23,7 @@ char	*ft_next_line(char *container)
 		i++;
 	if (container[i] == '\n')
 		i++;
-	new_cont = ft_calloc_gnl(ft_strlen_gnl(container) - i + 1, sizeof(char));
+	new_cont = ft_calloc_gnl(gnl_strlen(container) - i + 1, sizeof(char));
 	j = 0;
 	while (container[i])
 	{
@@ -75,7 +75,7 @@ char	*ft_read_line(int fd, char *container)
 		}
 		buffer[bytes_read] = 0;
 		container = ft_strjoin_gnl(container, buffer);
-		if (ft_strchr_gnl(buffer, '\n'))
+		if (gnl_strchr(buffer, '\n'))
 			break ;
 	}
 	free(buffer);

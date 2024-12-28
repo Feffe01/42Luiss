@@ -1,29 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   displayer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fgiampa <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/28 17:48:43 by fgiampa           #+#    #+#             */
+/*   Updated: 2024/12/28 17:48:46 by fgiampa          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-void put_image (t_vars *vars, char type, int x, int y)
+void	put_image(t_vars *vars, char type, int x, int y)
 {
 	if (type != '1')
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->floorImg, x, y);
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->floor_img, x, y);
 	else
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->wallImg, x, y);
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->wall_img, x, y);
 	if (type == 'U')
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->playerUp, x, y);
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->up_img, x, y);
 	if (type == 'D' || type == 'P')
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->playerDown, x, y);
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->down_img, x, y);
 	if (type == 'L')
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->playerLeft, x, y);
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->left_img, x, y);
 	if (type == 'R')
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->playerRight, x, y);
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->right_img, x, y);
 	if (type == 'C')
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->coinImg, x, y);
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->coin_img, x, y);
 	if (type == 'E')
-		mlx_put_image_to_window(vars->mlx, vars->win, vars->exitImg, x, y);
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->exit_img, x, y);
 }
 
-void display_map (t_vars *vars)
+void	display_map(t_vars *vars)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (vars->map[i])

@@ -1,17 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   movements.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fgiampa <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/28 17:50:36 by fgiampa           #+#    #+#             */
+/*   Updated: 2024/12/28 17:50:40 by fgiampa          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-void go_up(t_vars *vars)
+void	go_up(t_vars *vars)
 {
-	char **map;
-	int x;
-	int y;
+	char	**map;
+	int		x;
+	int		y;
 
 	map = vars->map;
-	x = vars->playerX;
-	y = vars->playerY;
-	if ((map[y - 1][x] != '1' && map[y - 1][x] != 'E') || (map[y - 1][x] == 'E' && vars->coins == vars->points))
+	x = vars->p_x;
+	y = vars->p_y;
+	if ((map[y - 1][x] != '1' && map[y - 1][x] != 'E')
+		|| (map[y - 1][x] == 'E' && vars->coins == vars->points))
 	{
-		vars->playerY -= 1;
+		vars->p_y -= 1;
 		ft_printf("Moves: %d\n", ++vars->moves);
 		if (map[y - 1][x] == 'C')
 		{
@@ -26,18 +39,19 @@ void go_up(t_vars *vars)
 	}
 }
 
-void go_down(t_vars *vars)
+void	go_down(t_vars *vars)
 {
-	char **map;
-	int x;
-	int y;
+	char	**map;
+	int		x;
+	int		y;
 
 	map = vars->map;
-	x = vars->playerX;
-	y = vars->playerY;
-	if ((map[y + 1][x] != '1' && map[y + 1][x] != 'E') || (map[y + 1][x] == 'E' && vars->coins == vars->points))
+	x = vars->p_x;
+	y = vars->p_y;
+	if ((map[y + 1][x] != '1' && map[y + 1][x] != 'E') ||
+		(map[y + 1][x] == 'E' && vars->coins == vars->points))
 	{
-		vars->playerY += 1;
+		vars->p_y += 1;
 		ft_printf("Moves: %d\n", ++vars->moves);
 		if (map[y + 1][x] == 'C')
 		{
@@ -52,18 +66,19 @@ void go_down(t_vars *vars)
 	}
 }
 
-void go_left(t_vars *vars)
+void	go_left(t_vars *vars)
 {
-	char **map;
-	int x;
-	int y;
+	char	**map;
+	int		x;
+	int		y;
 
 	map = vars->map;
-	x = vars->playerX;
-	y = vars->playerY;
-	if ((map[y][x - 1] != '1' && map[y][x - 1] != 'E') || (map[y][x - 1] == 'E' && vars->coins == vars->points))
+	x = vars->p_x;
+	y = vars->p_y;
+	if ((map[y][x - 1] != '1' && map[y][x - 1] != 'E') ||
+		(map[y][x - 1] == 'E' && vars->coins == vars->points))
 	{
-		vars->playerX -= 1;
+		vars->p_x -= 1;
 		ft_printf("Moves: %d\n", ++vars->moves);
 		if (map[y][x - 1] == 'C')
 		{
@@ -78,18 +93,19 @@ void go_left(t_vars *vars)
 	}
 }
 
-void go_right(t_vars *vars)
+void	go_right(t_vars *vars)
 {
-	char **map;
-	int x;
-	int y;
+	char	**map;
+	int		x;
+	int		y;
 
 	map = vars->map;
-	x = vars->playerX;
-	y = vars->playerY;
-	if ((map[y][x + 1] != '1' && map[y][x + 1] != 'E') || (map[y][x + 1] == 'E' && vars->coins == vars->points))
+	x = vars->p_x;
+	y = vars->p_y;
+	if ((map[y][x + 1] != '1' && map[y][x + 1] != 'E') ||
+		(map[y][x + 1] == 'E' && vars->coins == vars->points))
 	{
-		vars->playerX += 1;
+		vars->p_x += 1;
 		ft_printf("Moves: %d\n", ++vars->moves);
 		if (map[y][x + 1] == 'C')
 		{

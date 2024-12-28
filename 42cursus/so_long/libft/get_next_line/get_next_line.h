@@ -25,8 +25,8 @@
 #  define OPEN_MAX 1024
 # endif
 
-char	*ft_strchr_gnl(const char *s, int c);
-size_t	ft_strlen_gnl(const char *s);
+char	*gnl_strchr(const char *s, int c);
+size_t	gnl_strlen(const char *s);
 char	*ft_strjoin_gnl(char *s1, char *s2);
 void	*ft_calloc_gnl(size_t count, size_t size);
 
