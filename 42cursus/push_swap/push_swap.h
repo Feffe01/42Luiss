@@ -33,7 +33,7 @@ void	rev_rotate_a(t_stacks *stack);
 void	rev_rotate_b(t_stacks *stack);
 void	rev_rotate_both(t_stacks *stack);
 
-// void	push_a(int **a, int **b);
-// void	push_b(int **a, int **b);
+void	push_a(t_stacks *stack);
+void	push_b(t_stacks *stack);
 
 #endif

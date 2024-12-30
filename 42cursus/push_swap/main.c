@@ -6,7 +6,7 @@ int is_number(char *str)
 
 	i = 0;
 	if (str[i] == '-' || str[i] == '+')
-  	i++;
+		i++;
 	if (!str[i])
 		return (0);
 	while (str[i])
@@ -20,13 +20,13 @@ int is_number(char *str)
 
 void initialize(char **argv, int argc, t_stacks *stacks)
 {
-	int	i;
+	int i;
 
 	if (argc < 2)
 		error_exit("Not enough arguments.");
 	stacks->a = (int *)ft_calloc(argc - 1, sizeof(int));
 	if (!stacks->a)
-    error_exit("Memory allocation failed.");
+		error_exit("Memory allocation failed.");
 	i = 1;
 	while (argv[i])
 	{
@@ -41,7 +41,7 @@ void initialize(char **argv, int argc, t_stacks *stacks)
 	stacks->b_len = 0;
 }
 
-int	main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 	t_stacks stacks;
 
@@ -49,22 +49,25 @@ int	main(int argc, char **argv)
 
 	print_stacks(&stacks);
 
-	// ft_printf("\nPUSH\n\n");
-	// push_b(&stacks);
-	// ft_printf("\nA\n\n");
-	// print_stacks(&stacks);
-	// ft_printf("\nB\n\n");
-	// print_stacks(&stacks);
+	while (stacks.a_len > 0)
+	{
+		ft_printf("\nPUSH\n\n");
+		push_b(&stacks);
+		print_stacks(&stacks);
+	}
 
-	ft_printf("\nROTATION\n\n");
-	rotate_a(&stacks);
+	ft_printf("\nLAST PUSH\n\n");
+	push_b(&stacks);
 	print_stacks(&stacks);
-	ft_printf("\nREVERSE ROTATION\n\n");
-	rev_rotate_a(&stacks);
-	print_stacks(&stacks);
-	ft_printf("\nSWAP\n\n");
-	swap_a(&stacks);
-	print_stacks(&stacks);
+	// ft_printf("\nROTATION\n\n");
+	// rotate_a(&stacks);
+	// print_stacks(&stacks);
+	// ft_printf("\nREVERSE ROTATION\n\n");
+	// rev_rotate_a(&stacks);
+	// print_stacks(&stacks);
+	// ft_printf("\nSWAP\n\n");
+	// swap_a(&stacks);
+	// print_stacks(&stacks);
 
 	free(stacks.a);
 	return (0);

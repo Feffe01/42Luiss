@@ -1,74 +1,81 @@
-// #include "push_swap.h"
+#include "push_swap.h"
 
-// void copy_stack(int *dst, int *src, int size)
-// {
-// 	int i;
+void enlarge(int *dst, int *src, int size)
+{
+	int i;
 
-// 	i = 0;
-// 	while (i < size)
-// 	{
-// 		dst[i] = src[i];
-// 		i++;
-// 	}
-// }
+	ft_printf("enlarge size: %d\n", size);
+	i = size - 1;
+	while (i > 0)
+	{
+		dst[i] = src[i - 1];
+		i--;
+	}
+}
 
-// int *custom_realloc(int *ptr, int old_size, int new_size)
-// {
-// 	int *new_ptr;
+void shrink(int *dst, int *src, int size)
+{
+	int i;
 
-// 	if (ptr == NULL)
-// 		return (int *)ft_calloc(new_size, sizeof(int));
-// 	if (new_size <= 0)
-// 	{
-// 		free(ptr);
-// 		return NULL;
-// 	}
-// 	new_ptr = (int *)ft_calloc(new_size, sizeof(int));
-// 	if (!new_ptr)
-// 		error_exit("Reallocation failed");
-// 	if (old_size < new_size)
-// 		copy_stack(new_ptr, ptr, old_size);
-// 	else
-// 		copy_stack(new_ptr, ptr, new_size);
-// 	free(ptr);
-// 	return new_ptr;
-// }
+	ft_printf("shrink size: %d\n", size);
+	i = 0;
+	while (i < size)
+	{
+		dst[i] = src[i + 1];
+		i++;
+	}
+}
 
-// void push(int **dst, int **src)
-// {
-// 	int num;
-// 	int len_dst;
-// 	int len_src;
+int *custom_realloc(int *ptr, int old_size, int new_size)
+{
+	int *new_ptr;
 
-// 	if (!src || !(*src))
-// 		return;
-// 	ft_printf("\nSTARTING PUSH\n");
-// 	num = (*src)[0];
-// 	len_dst = array_len(*dst);
-// 	len_src = array_len(*src);
-// 	ft_printf("\nARRAY LEN ENDED\nlen_dst: %d\nlen_src: %d\n", len_dst, len_src);
-// 	rev_rotate(*src);
-// 	ft_printf("\nSRC ROTATED\n");
-// 	print_stacks(*src);
-// 	*src = custom_realloc(*src, len_src, len_src - 1);
-// 	*dst = custom_realloc(*dst, len_dst, len_dst + 1);
-// 	ft_printf("dst final len: %d\n", array_len(*dst));
-// 	if (*src == NULL || *dst == NULL)
-// 		error_exit("Memory reallocation failed.");
-// 	rotate(*dst);
-// 	ft_printf("\nDST ROTATED\n");
-// 	print_stacks(*dst);
-// 	(*dst)[0] = num;
-// }
+	if (ptr == NULL)
+		return (int *)ft_calloc(new_size, sizeof(int));
+	if (new_size <= 0)
+	{
+		free(ptr);
+		return NULL;
+	}
+	new_ptr = (int *)ft_calloc(new_size, sizeof(int));
+	if (!new_ptr)
+		error_exit("Reallocation failed");
+	if (old_size < new_size)
+		enlarge(new_ptr, ptr, new_size);
+	else
+		shrink(new_ptr, ptr, new_size);
+	free(ptr);
+	return new_ptr;
+}
 
-// void push_a(int **a, int **b)
-// {
-// 	ft_printf("pa\n");
-// 	push(a, b);
-// }
+void push_a(t_stacks *stack)
+{
+	int temp;
 
-// void push_b(int **a, int **b)
-// {
-// 	ft_printf("pb\n");
-// 	push(b, a);
-// }
+	if (!stack->b || !(stack->b)[0])
+		return ;
+	temp = (stack->b)[0];
+	ft_printf("len_a: %d\nlen_b: %d\n", stack->b_len, stack->a_len);
+	stack->b = custom_realloc(stack->b, stack->b_len, stack->b_len - 1);
+	stack->b_len--;
+	ft_printf("end of b\n");
+	stack->a = custom_realloc(stack->a, stack->a_len, stack->a_len + 1);
+	stack->a_len++;
+	(stack->a)[0] = temp;
+	ft_printf("end of a\n");
+}
+
+void push_b(t_stacks *stack)
+{
+	int temp;
+
+	if (!stack->a || !(stack->a)[0])
+		return ;
+	temp = (stack->a)[0];
+	ft_printf("len_a: %d\nlen_b: %d\n", stack->a_len, stack->b_len);
+	stack->a = custom_realloc(stack->a, stack->a_len, stack->a_len - 1);
+	stack->a_len--;
+	stack->b = custom_realloc(stack->b, stack->b_len, stack->b_len + 1);
+	stack->b_len++;
+	(stack->b)[0] = temp;
+}
