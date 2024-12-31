@@ -12,15 +12,20 @@ typedef struct s_stacks
 	int	a_len;
 	int	b_len;
 	int a_min;
+	int a_max;
 	int b_min;
 	int b_max;
 }	t_stacks;
 
-void	error_exit();
+void	error_exit(t_stacks *stacks);
 
 int		array_len(int *array);
 void	print_stacks (t_stacks *stack);
 void	check_min_max (t_stacks *stacks);
+
+void	check_a(t_stacks *stacks);
+int		check_int(t_stacks *stacks, char *str);
+void	check_order(t_stacks *stacks);
 
 void	swap(int *stack);
 void	swap_a(t_stacks *stack);

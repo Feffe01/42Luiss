@@ -36,8 +36,6 @@ int *custom_realloc(int *ptr, int old_size, int new_size)
 		return NULL;
 	}
 	new_ptr = (int *)ft_calloc(new_size, sizeof(int));
-	if (!new_ptr)
-		error_exit();
 	if (old_size < new_size)
 		enlarge(new_ptr, ptr, new_size);
 	else
@@ -50,15 +48,18 @@ void push_a(t_stacks *stacks)
 {
 	int temp;
 
-	if (!stacks->b || !(stacks->b)[0])
+	if (!stacks->b)
 		return ;
 	temp = (stacks->b)[0];
 	stacks->b = custom_realloc(stacks->b, stacks->b_len, stacks->b_len - 1);
 	stacks->b_len--;
 	stacks->a = custom_realloc(stacks->a, stacks->a_len, stacks->a_len + 1);
 	stacks->a_len++;
+	if ((!stacks->a && stacks->a_len > 0) || (!stacks->b && stacks->b_len > 0))
+		error_exit(stacks);
 	(stacks->a)[0] = temp;
-	if (temp <= stacks->a_min || temp >= stacks->b_max || temp <= stacks->b_min)
+	if (temp >= stacks->a_max || temp <= stacks->a_min
+		|| temp >= stacks->b_max || temp <= stacks->b_min)
 		check_min_max(stacks);
 	ft_printf("pa\n");
 }
@@ -67,15 +68,18 @@ void push_b(t_stacks *stacks)
 {
 	int temp;
 
-	if (!stacks->a || !(stacks->a)[0])
+	if (!stacks->a)
 		return ;
 	temp = (stacks->a)[0];
 	stacks->a = custom_realloc(stacks->a, stacks->a_len, stacks->a_len - 1);
 	stacks->a_len--;
 	stacks->b = custom_realloc(stacks->b, stacks->b_len, stacks->b_len + 1);
 	stacks->b_len++;
+	if ((!stacks->a && stacks->a_len > 0) || (!stacks->b && stacks->b_len > 0))
+		error_exit(stacks);
 	(stacks->b)[0] = temp;
-	if (temp <= stacks->a_min || temp >= stacks->b_max || temp <= stacks->b_min)
+	if (temp >= stacks->a_max || temp <= stacks->a_min
+		|| temp >= stacks->b_max || temp <= stacks->b_min)
 		check_min_max(stacks);
 	ft_printf("pb\n");
 }

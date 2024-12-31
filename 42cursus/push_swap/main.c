@@ -1,23 +1,5 @@
 #include "push_swap.h"
 
-int is_number(char *str)
-{
-	int i;
-
-	i = 0;
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	if (!str[i])
-		return (0);
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 char **fix_input(char **argv, int *argc)
 {
 	char *new_input;
@@ -45,20 +27,18 @@ void initialize(char **argv, int argc, t_stacks *stacks)
 	argv = fix_input(argv, &argc);
 	stacks->a = (int *)ft_calloc(argc - 1, sizeof(int));
 	if (!stacks->a)
-		error_exit();
+		error_exit(stacks);
 	i = 1;
 	while (argv[i])
 	{
-		if (is_number(argv[i]))
-			(stacks->a)[i - 1] = ft_atoi(argv[i]);
-		else
-			error_exit();
+		(stacks->a)[i - 1] = check_int(stacks, argv[i]);
 		i++;
 	}
 	stacks->a_len = i - 1;
 	stacks->b = NULL;
 	stacks->b_len = 0;
 	stacks->a_min = 2147483647;
+	stacks->a_max = -2147483648;
 	stacks->b_min = 2147483647;
 	stacks->b_max = -2147483648;
 }
@@ -68,9 +48,10 @@ int main(int argc, char **argv)
 	t_stacks stacks;
 
 	initialize(argv, argc, &stacks);
+	ft_printf("initialize ended\n");
+	check_a(&stacks);
 	sort(&stacks);
-	// print_stacks(&stacks);
-
+	print_stacks(&stacks);
 	free(stacks.a);
 	return (0);
 }

@@ -62,10 +62,10 @@ void sort(t_stacks *stacks)
 		sort_3a(stacks);
 	else
 	{
+		while (stacks->a[0] > stacks->a[stacks->a_len - 1])
+			rev_rotate_a(stacks);
+		check_order(stacks);
 		push_b(stacks);
-		push_b(stacks);
-		push_b(stacks);
-		sort_3b(stacks);
 		start_sorting(stacks);
 	}
 }
