@@ -7,12 +7,12 @@ void rev_rotate(int *stack, int len)
 
 	if (!stack[0] || !stack[1])
 		return ;
-	i = 0;
+	i = len - 1;
 	temp = stack[i];
-	while (i < len - 1)
+	while (i > 0)
 	{
-		stack[i] = stack[i + 1];
-		i++;
+		stack[i] = stack[i - 1];
+		i--;
 	}
 	stack[i] = temp;
 }

@@ -7,12 +7,12 @@ void rotate(int *stack, int len)
 
 	if (!stack[0] || !stack[1])
 		return ;
-	i = len - 1;
+	i = 0;
 	temp = stack[i];
-	while (i > 0)
+	while (i < len - 1)
 	{
-		stack[i] = stack[i - 1];
-		i--;
+		stack[i] = stack[i + 1];
+		i++;
 	}
 	stack[i] = temp;
 }
