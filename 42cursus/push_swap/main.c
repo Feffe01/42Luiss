@@ -28,6 +28,12 @@ void initialize(char **argv, int argc, t_stacks *stacks)
 	stacks->a = (int *)ft_calloc(argc - 1, sizeof(int));
 	if (!stacks->a)
 		error_exit(stacks);
+	stacks->b = NULL;
+	stacks->b_len = 0;
+	stacks->a_min = 2147483647;
+	stacks->a_max = -2147483648;
+	stacks->b_min = 2147483647;
+	stacks->b_max = -2147483648;
 	i = 1;
 	while (argv[i])
 	{
@@ -35,12 +41,6 @@ void initialize(char **argv, int argc, t_stacks *stacks)
 		i++;
 	}
 	stacks->a_len = i - 1;
-	stacks->b = NULL;
-	stacks->b_len = 0;
-	stacks->a_min = 2147483647;
-	stacks->a_max = -2147483648;
-	stacks->b_min = 2147483647;
-	stacks->b_max = -2147483648;
 }
 
 int main(int argc, char **argv)
