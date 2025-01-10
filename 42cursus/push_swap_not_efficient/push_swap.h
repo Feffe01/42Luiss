@@ -20,7 +20,6 @@ typedef struct s_stacks
 void	error_exit(t_stacks *stacks);
 
 int		array_len(int *array);
-void	print_stacks (t_stacks *stack);
 void	check_min_max (t_stacks *stacks);
 
 void	check_a(t_stacks *stacks);

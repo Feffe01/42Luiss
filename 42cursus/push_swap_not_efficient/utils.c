@@ -69,23 +69,3 @@ int array_len(int *array)
 		i++;
 	return (i);
 }
-
-void	print_stacks (t_stacks *stack)
-{
-	int i;
-
-	ft_printf("\nA stack:\n");
-	i = 0;
-	while (i < stack->a_len)
-	{
-		ft_printf("%d\n", (stack->a)[i]);
-		i++;
-	}
-	ft_printf("\nB stack:\n");
-	i = 0;
-	while (i < stack->b_len)
-	{
-		ft_printf("%d\n", (stack->b)[i]);
-		i++;
-	}
-}

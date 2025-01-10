@@ -63,9 +63,6 @@ void check_order(t_stacks *stacks)
 
 void check_a(t_stacks *stacks)
 {
-	ft_printf("check duplicates\n");
 	check_duplicates(stacks);
-	ft_printf("check order\n");
 	check_order(stacks);
-	ft_printf("end checks\n");
 }

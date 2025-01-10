@@ -48,10 +48,8 @@ int main(int argc, char **argv)
 	t_stacks stacks;
 
 	initialize(argv, argc, &stacks);
-	ft_printf("initialize ended\n");
 	check_a(&stacks);
 	sort(&stacks);
-	print_stacks(&stacks);
 	free(stacks.a);
 	return (0);
 }
