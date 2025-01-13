@@ -1,68 +1,117 @@
-// #include "push_swap.h"
+#include "push_swap.h"
 
-// void ending(t_stacks *stacks)
-// {
-// 	if (stacks->b[0] < stacks->a[0])
-// 	{
-// 		if (stacks->b[0] > stacks->a[stacks->a_len - 1])
-// 			push_a(stacks);
-// 		else if (stacks->b[0] < stacks->a_min)
-// 		{
-// 			while (stacks->a[0] > stacks->a[stacks->a_len - 1])
-// 				rev_rotate_a(stacks);
-// 			push_a(stacks);
-// 		}
-// 		else
-// 			rev_rotate_a(stacks);
-// 	}
-// 	else if (stacks->b[0] > stacks->a_max)
-// 	{
-// 		while (stacks->a[0] > stacks->a[stacks->a_len - 1])
-// 			rev_rotate_a(stacks);
-// 		push_a(stacks);
-// 	}
-// 	else
-// 		rotate_a(stacks);
-// }
+t_node	*get_cheapest(t_node **lst)
+{
+	t_node	*cheap;
+	t_node	*temp;
 
-// void fill_b(t_stacks *stacks)
-// {
-// 	if (stacks->a[0] > stacks->b[0])
-// 	{
-// 		if (stacks->a[0] < stacks->b[stacks->b_len - 1])
-// 			push_b(stacks);
-// 		else if (stacks->a[0] > stacks->b_max)
-// 		{
-// 			while (stacks->b[0] < stacks->b[stacks->b_len - 1])
-// 				rev_rotate_b(stacks);
-// 			push_b(stacks);
-// 		}
-// 		else
-// 			rev_rotate_b(stacks);
-// 	}
-// 	else if (stacks->a[0] < stacks->b_min)
-// 	{
-// 		while (stacks->b[0] < stacks->b[stacks->b_len - 1])
-// 			rev_rotate_b(stacks);
-// 		push_b(stacks);
-// 	}
-// 	else
-// 		rotate_b(stacks);
-// }
+	temp = *lst;
+	while(temp)
+	{
+		if (temp->cheapest)
+			cheap = temp;
+		temp = temp->next;
+	}
+	return (cheap);
+}
 
-// void start_sorting(t_stacks *stacks)
-// {
-// 	while (stacks->a_len > 3)
-// 	{
-// 		while (stacks->a[0] > stacks->a[stacks->a_len - 1])
-// 			rev_rotate_a(stacks);
-// 		fill_b(stacks);
-// 	}
-// 	sort_3a(stacks);
-// 	while (stacks->b[0] < stacks->b[stacks->b_len - 1])
-// 		rev_rotate_b(stacks);
-// 	while (stacks->b_len > 0)
-// 		ending(stacks);
-// 	while (stacks->a[0] > stacks->a[stacks->a_len - 1])
-// 		rev_rotate_a(stacks);
-// }
+void move_cheapest_a(t_node **a, t_node **b)
+{
+	t_node *cheap_a;
+	t_node *target;
+
+	cheap_a = get_cheapest(a);
+	target = cheap_a->target;
+	while(cheap_a->above_median == target->above_median
+		&& cheap_a->prev && target->prev)
+	{
+		if(cheap_a->above_median)
+			rotate_both(a, b);
+		else
+			rev_rotate_both(a, b);
+	}
+	while(cheap_a->prev)
+	{
+		if (cheap_a->above_median)
+			rotate_a(a);
+		else
+			rev_rotate_a(a);
+	}
+	while(target->prev)
+	{
+		if (target->above_median)
+			rotate_b(b);
+		else
+			rev_rotate_b(b);
+	}
+	push_b(a, b);
+}
+
+void move_cheapest_b(t_node **a, t_node **b)
+{
+	t_node *cheap_b;
+	t_node *target;
+
+	cheap_b = get_cheapest(b);
+	target = cheap_b->target;
+	while(cheap_b->above_median == target->above_median
+		&& cheap_b->prev && target->prev)
+	{
+		if(cheap_b->above_median)
+			rotate_both(a, b);
+		else
+			rev_rotate_both(a, b);
+	}
+	while(cheap_b->prev)
+	{
+		if (cheap_b->above_median)
+			rotate_b(b);
+		else
+			rev_rotate_b(b);
+	}
+	while(target->prev)
+	{
+		if (target->above_median)
+			rotate_a(a);
+		else
+			rev_rotate_a(a);
+	}
+	push_a(a, b);
+}
+
+void	min_on_top(t_node **a)
+{
+	t_node *min;
+
+	min = find_min(a);
+	while(min->prev)
+	{
+		if(min->above_median)
+			rotate_a(a);
+		else
+			rev_rotate_a(a);
+	}
+}
+
+void start_sorting(t_node **a, t_node **b)
+{
+	int	a_len;
+
+	a_len = stack_size(*a);
+	if(a_len-- > 3 && !is_ordered(a))
+		push_b(a, b);
+	if(a_len-- > 3 && !is_ordered(a))
+		push_b(a, b);
+	while(a_len-- > 3 && !is_ordered(a))
+	{
+		setup_nodes_a(a, b);
+		move_cheapest_a(a, b);
+	}
+	sort_three_a(a);
+	while(*b)
+	{
+		setup_nodes_b(a, b);
+		move_cheapest_b(a, b);
+	}
+	min_on_top(a);
+}

@@ -1,71 +1,50 @@
-// #include "push_swap.h"
+#include "push_swap.h"
 
-// void	check_min(t_stacks *stacks)
-// {
-// 	int i;
-// 	int temp;
+t_node	*find_min(t_node **lst)
+{
+	t_node	*temp;
+	t_node	*min;
 
-// 	i = 0;
-// 	temp = 2147483647;
-// 	while (i < stacks->a_len)
-// 	{
-// 		if (stacks->a[i] < temp)
-// 			temp = stacks->a[i];
-// 		i++;
-// 	}
-// 	stacks->a_min = temp;
+	if(!(*lst))
+		return NULL;
+	temp = *lst;
+	min = *lst;
+	while (temp)
+	{
+		if(temp->nbr < min->nbr)
+			min = temp;
+		temp = temp->next;
+	}
+	return (min);
+}
 
-// 	i = 0;
-// 	temp = 2147483647;
-// 	while (i < stacks->b_len)
-// 	{
-// 		if (stacks->b[i] < temp)
-// 			temp = stacks->b[i];
-// 		i++;
-// 	}
-// 	stacks->b_min = temp;
-// }
+t_node	*find_max(t_node **lst)
+{
+	t_node	*temp;
+	t_node	*max;
 
-// void check_max (t_stacks *stacks)
-// {
-// 	int	i;
-// 	int	temp;
+	if(!(*lst))
+		return NULL;
+	temp = *lst;
+	max = *lst;
+	while (temp)
+	{
+		if(temp->nbr > max->nbr)
+			max = temp;
+		temp = temp->next;
+	}
+	return (max);
+}
 
-// 	i = 0;
-// 	temp = -2147483648;
-// 	while (i < stacks->b_len)
-// 	{
-// 		if (stacks->b[i] > temp)
-// 			temp = stacks->b[i];
-// 		i++;
-// 	}
-// 	stacks->b_max = temp;
+void	sort_three_a(t_node **a)
+{
+	t_node *max;
 
-// 	i = 0;
-// 	temp = -2147483648;
-// 	while (i < stacks->a_len)
-// 	{
-// 		if (stacks->a[i] > temp)
-// 			temp = stacks->a[i];
-// 		i++;
-// 	}
-// 	stacks->a_max = temp;
-// }
-
-// void check_min_max(t_stacks *stacks)
-// {
-// 	check_min(stacks);
-// 	check_max(stacks);
-// }
-
-// int array_len(int *array)
-// {
-// 	int	i;
-
-// 	if (!array)
-// 		return (0);
-// 	i = 0;
-// 	while (array[i])
-// 		i++;
-// 	return (i);
-// }
+	max = find_max(a);
+	if (max == (*a))
+		rotate_a(a);
+	else if (max == (*a)->next)
+		rev_rotate_a(a);
+	if ((*a)->nbr > (*a)->next->nbr)
+		swap_a(a);
+}

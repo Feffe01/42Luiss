@@ -48,7 +48,7 @@ void check_duplicates(t_node **lst)
 	}
 }
 
-void check_order(t_node **lst)
+bool is_ordered(t_node **lst)
 {
 	t_node *current;
 
@@ -56,9 +56,8 @@ void check_order(t_node **lst)
 	while (current->next)
 	{
 		if (current->nbr > current->next->nbr)
-			return ;
+			return (false);
 		current = current->next;
 	}
-	free_stack(lst);
-	exit(0);
+	return (true);
 }

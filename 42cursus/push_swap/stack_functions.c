@@ -10,7 +10,7 @@ t_node *create_node(int nbr)
 	node->above_median = false;
 	node->cheapest = false;
 	node->index = -1;
-	node->push_cost = -1;
+	node->push_cost = LONG_MAX;
 	node->nbr = nbr;
 	node->target = NULL;
 	node->prev = NULL;
@@ -102,7 +102,7 @@ t_node *rm_first_node(t_node **lst)
 	return (NULL);
 }
 
-int stack_size(t_node *lst)
+long	stack_size(t_node *lst)
 {
 	int i;
 
@@ -121,7 +121,7 @@ void free_stack(t_node **lst)
 	t_node *next;
 
 	if (!lst)
-		return;
+		return ;
 	current = *lst;
 	while (current)
 	{

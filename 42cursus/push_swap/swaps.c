@@ -5,13 +5,10 @@ void swap(t_node **stack)
 	t_node	*first;
 	t_node	*second;
 
-	first = *stack;
-	second = (*stack)->next;
-	first->prev = second;
-	first->next = second->next;
-	second->prev = NULL;
-	second->next = first;
-	*stack = second;
+	first = rm_first_node(stack);
+	second = rm_first_node(stack);
+	add_node_start(stack, first);
+	add_node_start(stack, second);
 }
 
 void swap_a(t_node **a)
