@@ -12,6 +12,14 @@
 
 #include "push_swap.h"
 
+void	check_limits(int sign, long value, t_node **lst, char **argv)
+{
+	if (sign == 1 && value > INT_MAX)
+		error_exit_all(lst, argv);
+	if (sign == -1 && -(value) < INT_MIN)
+		error_exit_all(lst, argv);
+}
+
 int	check_int_all(t_node **lst, char *str, char **argv)
 {
 	long		value;
@@ -27,15 +35,14 @@ int	check_int_all(t_node **lst, char *str, char **argv)
 			sign = -1;
 		i++;
 	}
+	if (str[i] == '\0')
+		error_exit(lst, NULL);
 	while (str[i] != '\0')
 	{
 		if (!ft_isdigit(str[i]))
 			error_exit_all(lst, argv);
 		value = value * 10 + (str[i] - '0');
-		if (sign == 1 && value > INT_MAX)
-			error_exit_all(lst, argv);
-		if (sign == -1 && -(value) < INT_MIN)
-			error_exit_all(lst, argv);
+		check_limits(sign, value, lst, argv);
 		i++;
 	}
 	return (sign * value);
@@ -56,15 +63,14 @@ int	check_int(t_node **lst, char *str)
 			sign = -1;
 		i++;
 	}
+	if (str[i] == '\0')
+		error_exit(lst, NULL);
 	while (str[i] != '\0')
 	{
 		if (!ft_isdigit(str[i]))
 			error_exit(lst, NULL);
 		value = value * 10 + (str[i] - '0');
-		if (sign == 1 && value > INT_MAX)
-			error_exit(lst, NULL);
-		if (sign == -1 && -(value) < INT_MIN)
-			error_exit(lst, NULL);
+		check_limits(sign, value, lst, NULL);
 		i++;
 	}
 	return (sign * value);

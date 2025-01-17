@@ -27,8 +27,11 @@ void	error_exit_all(t_node **a, char **str)
 	write(2, "Error\n", 6);
 	free_stack(a);
 	i = 0;
-	while (str[i])
-		free(str[i++]);
-	free(str);
+	if (str)
+	{
+		while (str[i])
+			free(str[i++]);
+		free(str);
+	}
 	exit(EXIT_FAILURE);
 }
