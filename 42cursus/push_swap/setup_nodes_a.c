@@ -1,13 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   setup_nodes_a.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fgiampa <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/17 09:50:03 by fgiampa           #+#    #+#             */
+/*   Updated: 2025/01/17 09:50:05 by fgiampa          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	set_targets_a(t_node **a, t_node **b)
 {
 	t_node	*n_a;
 	t_node	*n_b;
-	bool		target_found;
+	bool	target_found;
 
-	if(!(*a) || !(*b))
-		return ;
 	n_a = *a;
 	while (n_a)
 	{
@@ -18,7 +28,7 @@ void	set_targets_a(t_node **a, t_node **b)
 		{
 			if ((!n_a->target && n_a->nbr > n_b->nbr)
 				|| (n_a->target && n_a->nbr > n_b->nbr
-				&& n_a->nbr - n_b->nbr < n_a->nbr - n_a->target->nbr))
+					&& n_a->nbr - n_b->nbr < n_a->nbr - n_a->target->nbr))
 			{
 				target_found = true;
 				n_a->target = n_b;
@@ -33,6 +43,8 @@ void	set_targets_a(t_node **a, t_node **b)
 
 void	setup_nodes_a(t_node **a, t_node **b)
 {
+	if (!(*a) || !(*b))
+		return ;
 	set_indexes(a);
 	set_indexes(b);
 	set_targets_a(a, b);

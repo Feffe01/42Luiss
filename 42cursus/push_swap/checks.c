@@ -1,10 +1,51 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checks.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fgiampa <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/17 09:32:04 by fgiampa           #+#    #+#             */
+/*   Updated: 2025/01/17 09:32:07 by fgiampa          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-int check_int(t_node **lst, char *str)
+int	check_int_all(t_node **lst, char *str, char **argv)
 {
-	long value;
-	int sign;
-	size_t i;
+	long		value;
+	int			sign;
+	size_t		i;
+
+	value = 0;
+	sign = 1;
+	i = 0;
+	if (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (str[i] != '\0')
+	{
+		if (!ft_isdigit(str[i]))
+			error_exit_all(lst, argv);
+		value = value * 10 + (str[i] - '0');
+		if (sign == 1 && value > INT_MAX)
+			error_exit_all(lst, argv);
+		if (sign == -1 && -(value) < INT_MIN)
+			error_exit_all(lst, argv);
+		i++;
+	}
+	return (sign * value);
+}
+
+int	check_int(t_node **lst, char *str)
+{
+	long		value;
+	int			sign;
+	size_t		i;
 
 	value = 0;
 	sign = 1;
@@ -22,17 +63,17 @@ int check_int(t_node **lst, char *str)
 		value = value * 10 + (str[i] - '0');
 		if (sign == 1 && value > INT_MAX)
 			error_exit(lst, NULL);
-		if (sign == -1 && -value < INT_MIN)
+		if (sign == -1 && -(value) < INT_MIN)
 			error_exit(lst, NULL);
 		i++;
 	}
 	return (sign * value);
 }
 
-void check_duplicates(t_node **lst)
+void	check_duplicates(t_node **lst)
 {
-	t_node *current;
-	t_node *temp;
+	t_node	*current;
+	t_node	*temp;
 
 	current = *lst;
 	while (current->next)
@@ -40,7 +81,7 @@ void check_duplicates(t_node **lst)
 		temp = current->next;
 		while (temp)
 		{
-			if(current->nbr == temp->nbr)
+			if (current->nbr == temp->nbr)
 				error_exit(lst, NULL);
 			temp = temp->next;
 		}
@@ -48,9 +89,9 @@ void check_duplicates(t_node **lst)
 	}
 }
 
-bool is_ordered(t_node **lst)
+bool	is_ordered(t_node **lst)
 {
-	t_node *current;
+	t_node	*current;
 
 	current = *lst;
 	while (current->next)

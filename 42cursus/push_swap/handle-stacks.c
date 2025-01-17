@@ -1,35 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pushes.c                                           :+:      :+:    :+:   */
+/*   handle-stacks.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgiampa <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/17 09:43:33 by fgiampa           #+#    #+#             */
-/*   Updated: 2025/01/17 09:43:36 by fgiampa          ###   ########.fr       */
+/*   Created: 2025/01/17 09:58:19 by fgiampa           #+#    #+#             */
+/*   Updated: 2025/01/17 09:58:22 by fgiampa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	push_a(t_node **a, t_node **b)
+long	stack_size(t_node *lst)
 {
-	t_node	*temp;
+	int	i;
 
-	if (!*b)
-		return ;
-	temp = rm_first_node(b);
-	add_node_start(a, temp);
-	ft_printf("pa\n");
+	i = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
 }
 
-void	push_b(t_node **a, t_node **b)
+void	free_stack(t_node **lst)
 {
-	t_node	*temp;
+	t_node	*current;
+	t_node	*next;
 
-	if (!*a)
+	if (!lst)
 		return ;
-	temp = rm_first_node(a);
-	add_node_start(b, temp);
-	ft_printf("pb\n");
+	current = *lst;
+	while (current)
+	{
+		next = current->next;
+		free(current);
+		current = next;
+	}
+	*lst = NULL;
 }
