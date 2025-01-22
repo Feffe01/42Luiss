@@ -8,5 +8,6 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <errno.h>
+# include <fcntl.h>
 
 #endif

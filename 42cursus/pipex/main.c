@@ -1,59 +1,78 @@
 #include "pipex.h"
 
-int main()
+char	*find_path(char *cmd, char **env)
 {
-	int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-	int arrSize = sizeof(arr) / sizeof(int);
-	int start, end;
-	int fd[2];
-	if (pipe(fd) == -1)
+
+}
+
+void	child1(int *fd, char *infile, char *cmd_str)
+{
+	int					file;
+	extern char	**environ;
+	char				**cmd;
+
+	file = open(infile, O_RDONLY);
+	if (file == -1)
 	{
-		ft_printf("Pipe failed");
+		perror("Error opening infile");
+		exit(1);
+	}
+	cmd = ft_split(cmd_str, ' ');
+	dup2(file, STDIN_FILENO);
+	close(file);
+	dup2(fd[1], STDOUT_FILENO);
+	close(fd[0]);
+	close(fd[1]);
+	execve(find_path(cmd[0], environ), cmd, environ);
+	free(cmd);
+	perror("Error executing child1");
+	exit(1);
+}
+
+void	child2(int *fd, char *outfile, char **cmd)
+{
+	int	file;
+	extern char **environ;
+
+	file = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (file == -1)
+	{
+		perror("Error opening infile");
+		exit(1);
+	}
+	dup2(file, STDOUT_FILENO);
+	close(file);
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
+	close(fd[1]);
+	execve(cmd[0], cmd, environ);
+	perror("Error executing child2");
+	exit(1);
+}
+
+int	main(int argc, char **argv)
+{
+	int	fd[2];
+	int	pid1;
+	int	pid2;
+
+	if (argc !=  5)
 		return 1;
-	}
-	
-	int id = fork();
-	if (id == -1)
-	{
-		ft_printf("Fork failed");
+	if (pipe(fd) == -1)
 		return 2;
-	}
-
-	if (id == 0)
-	{
-		start = 0;
-		end = arrSize / 2;
-	}
-	else
-	{
-		start = arrSize / 2;
-		end = arrSize;
-	}
-
-	int sum = 0;
-	int i;
-	for (i = start; i < end; i++)
-		sum += arr[i];
-
-	ft_printf("Partial sum: %d\n", sum);
-
-	if (id == 0)
-	{
-		close(fd[0]);
-		write(fd[1], &sum, sizeof(sum));
-		close(fd[1]);
-	}
-	else
-	{
-		int sumfromchild;
-		close(fd[1]);
-		read(fd[0], &sumfromchild, sizeof(sumfromchild));
-		close(fd[0]);
-
-		int total = sum + sumfromchild;
-		ft_printf("Total: %d\n", total);
-		wait(NULL);
-	}
-
+	pid1 = fork();
+	if (pid1 < 0)
+		return 3;
+	if(pid1 == 0)
+		child1(fd, argv[1], argv[2]);
+	pid2 = fork();
+	if (pid2 < 0)
+		return 4;
+	if(pid2 == 0)
+		child2(fd, argv[4], argv[3]);
+	close(fd[0]);
+	close(fd[1]);
+	waitpid(pid1, NULL, 0);
+	waitpid(pid2, NULL, 0);
 	return 0;
 }
