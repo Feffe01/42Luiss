@@ -22,7 +22,7 @@ void	child1(int *fd, char *infile, char *cmd_str)
 	if (file == -1)
 	{
 		perror("Error opening infile");
-		exit(1);
+		exit(-1);
 	}
 	cmd = ft_split(cmd_str, ' ');
 	dup2(file, STDIN_FILENO);
@@ -33,7 +33,7 @@ void	child1(int *fd, char *infile, char *cmd_str)
 	execve(find_path(cmd[0], environ), cmd, environ);
 	free_matrix(cmd);
 	perror("Error executing child1");
-	exit(2);
+	exit(-1);
 }
 
 void	child2(int *fd, char *outfile, char *cmd_str)
@@ -46,7 +46,7 @@ void	child2(int *fd, char *outfile, char *cmd_str)
 	if (file == -1)
 	{
 		perror("Error opening outfile");
-		exit(3);
+		exit(-1);
 	}
 	cmd = ft_split(cmd_str, ' ');
 	dup2(file, STDOUT_FILENO);
@@ -57,7 +57,22 @@ void	child2(int *fd, char *outfile, char *cmd_str)
 	execve(find_path(cmd[0], environ), cmd, environ);
 	free_matrix(cmd);
 	perror("Error executing child2");
-	exit(4);
+	exit(-1);
+}
+
+int	check_status(int pid1, int pid2)
+{
+	int	status;
+
+	if (waitpid(pid1, &status, 0) == -1)
+		return (1);
+	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+		return (1);
+	if (waitpid(pid2, &status, 0) == -1)
+		return (1);
+	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
+		return (1);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -69,20 +84,18 @@ int	main(int argc, char **argv)
 	if (argc != 5)
 		return (1);
 	if (pipe(fd) == -1)
-		return (2);
+		return (1);
 	pid1 = fork();
 	if (pid1 < 0)
-		return (3);
+		return (1);
 	if (pid1 == 0)
 		child1(fd, argv[1], argv[2]);
 	pid2 = fork();
 	if (pid2 < 0)
-		return (4);
+		return (1);
 	if (pid2 == 0)
 		child2(fd, argv[4], argv[3]);
 	close(fd[0]);
 	close(fd[1]);
-	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
-	return (0);
+	return (check_status(pid1, pid2));
 }
