@@ -23,6 +23,6 @@
 # include <fcntl.h>
 
 void	free_matrix(char **matrix);
-char	*find_path(char *cmd, char **env);
+char	*find_path(char **cmd, char **env);
 
 #endif

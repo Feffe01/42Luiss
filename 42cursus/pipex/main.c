@@ -25,12 +25,17 @@ void	child1(int *fd, char *infile, char *cmd_str)
 		exit(1);
 	}
 	cmd = ft_split(cmd_str, ' ');
+	if (!cmd || !cmd[0])
+	{
+		free_matrix(cmd);
+		exit(0);
+	}
 	dup2(file, STDIN_FILENO);
 	close(file);
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
 	close(fd[1]);
-	execve(find_path(cmd[0], environ), cmd, environ);
+	execve(find_path(cmd, environ), cmd, environ);
 	free_matrix(cmd);
 	perror("Error executing child1");
 	exit(1);
@@ -49,12 +54,17 @@ void	child2(int *fd, char *outfile, char *cmd_str)
 		exit(1);
 	}
 	cmd = ft_split(cmd_str, ' ');
+	if (!cmd || !cmd[0])
+	{
+		free_matrix(cmd);
+		exit(0);
+	}
 	dup2(file, STDOUT_FILENO);
 	close(file);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
 	close(fd[1]);
-	execve(find_path(cmd[0], environ), cmd, environ);
+	execve(find_path(cmd, environ), cmd, environ);
 	free_matrix(cmd);
 	perror("Error executing child2");
 	exit(1);

@@ -43,7 +43,7 @@ char	*my_getenv(char **env, char *word)
 	exit(1);
 }
 
-char	*find_path(char *cmd, char **env)
+char	*find_path(char **cmd, char **env)
 {
 	char	*path_str;
 	char	*cmd_str;
@@ -56,7 +56,7 @@ char	*find_path(char *cmd, char **env)
 	while (paths[i])
 	{
 		path_str = ft_strjoin(paths[i], "/");
-		cmd_str = ft_strjoin(path_str, cmd);
+		cmd_str = ft_strjoin(path_str, cmd[0]);
 		free(path_str);
 		if (access(cmd_str, F_OK | X_OK) == 0)
 		{
@@ -67,6 +67,7 @@ char	*find_path(char *cmd, char **env)
 		i++;
 	}
 	free_matrix(paths);
+	free_matrix(cmd);
 	perror("Command not found");
 	exit(127);
 }
