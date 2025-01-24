@@ -40,7 +40,7 @@ char	*my_getenv(char **env, char *word)
 		i++;
 	}
 	perror("PATH not found in environment");
-	exit(-1);
+	exit(1);
 }
 
 char	*find_path(char *cmd, char **env)
@@ -68,5 +68,5 @@ char	*find_path(char *cmd, char **env)
 	}
 	free_matrix(paths);
 	perror("Command not found");
-	exit(-1);
+	exit(127);
 }

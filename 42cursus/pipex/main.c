@@ -22,7 +22,7 @@ void	child1(int *fd, char *infile, char *cmd_str)
 	if (file == -1)
 	{
 		perror("Error opening infile");
-		exit(-1);
+		exit(1);
 	}
 	cmd = ft_split(cmd_str, ' ');
 	dup2(file, STDIN_FILENO);
@@ -33,7 +33,7 @@ void	child1(int *fd, char *infile, char *cmd_str)
 	execve(find_path(cmd[0], environ), cmd, environ);
 	free_matrix(cmd);
 	perror("Error executing child1");
-	exit(-1);
+	exit(1);
 }
 
 void	child2(int *fd, char *outfile, char *cmd_str)
@@ -46,7 +46,7 @@ void	child2(int *fd, char *outfile, char *cmd_str)
 	if (file == -1)
 	{
 		perror("Error opening outfile");
-		exit(-1);
+		exit(1);
 	}
 	cmd = ft_split(cmd_str, ' ');
 	dup2(file, STDOUT_FILENO);
@@ -57,21 +57,18 @@ void	child2(int *fd, char *outfile, char *cmd_str)
 	execve(find_path(cmd[0], environ), cmd, environ);
 	free_matrix(cmd);
 	perror("Error executing child2");
-	exit(-1);
+	exit(1);
 }
 
 int	check_status(int pid1, int pid2)
 {
 	int	status;
 
-	if (waitpid(pid1, &status, 0) == -1)
-		return (1);
-	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-		return (1);
+	waitpid(pid1, NULL, 0);
 	if (waitpid(pid2, &status, 0) == -1)
 		return (1);
 	if (WIFEXITED(status) && WEXITSTATUS(status) != 0)
-		return (1);
+		return (WEXITSTATUS(status));
 	return (0);
 }
 
