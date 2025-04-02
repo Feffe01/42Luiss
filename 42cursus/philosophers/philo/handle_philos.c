@@ -39,10 +39,10 @@ philo_node	*create_philo_node(int index, t_data *data)
 	node->num_meals = data->num_meals;
 	node->actual_meal = 0;
 	if(index - 1 < 1)
-		node->right_fork = find_fork_node(*(data->forks), data->num_philos);
+		node->right_fork = find_fork_node(data->fst_fork, data->num_philos);
 	else
-		node->right_fork = find_fork_node(*(data->forks), index - 1);
-	node->left_fork = find_fork_node(*(data->forks), index);
+		node->right_fork = find_fork_node(data->fst_fork, index - 1);
+	node->left_fork = find_fork_node(data->fst_fork, index);
 	node->prev = NULL;
 	node->next = NULL;
 	return (node);

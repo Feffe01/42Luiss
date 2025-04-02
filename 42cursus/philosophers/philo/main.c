@@ -10,5 +10,5 @@ int	main(int argc, char **argv)
 		return(1);
 	}
 	initializer(argc, argv, &data);
-	printf("%d\n, %d\n, %d\n", data.num_philos, data.fst_fork->index, data.fst_philo->left_fork->index);
+	printf("%d\n%d\n%d\n", data.fst_philo->index, data.fst_philo->left_fork->index, data.fst_philo->right_fork->index);
 }
