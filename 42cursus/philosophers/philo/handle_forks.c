@@ -42,13 +42,11 @@ fork_node	*create_fork_node(int index)
 	if (!node)
 		return (NULL);
 	node->index = index;
-	node->active = FALSE;
 	if (pthread_mutex_init(&(node->mutex), NULL) != 0)
 	{
 		free(node);
 		return (NULL);
 	}
-	node->prev = NULL;
 	node->next = NULL;
 	return (node);
 }
@@ -62,15 +60,9 @@ void	add_fork_node(fork_node **lst, fork_node *new)
 		if (*lst)
 		{
 			last = last_fork_node(*lst);
-			new->prev = last;
-			new->next = NULL;
 			last->next = new;
 		}
 		else
-		{
-			new->next = NULL;
-			new->prev = NULL;
 			*lst = new;
-		}
 	}
 }

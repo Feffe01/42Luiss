@@ -6,26 +6,21 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
-
-typedef enum e_boolean
-{
-	FALSE,
-	TRUE
-} t_bool;
+# include <limits.h>
 
 typedef enum e_status
 {
 	EATING,
 	THINKING,
-	SLEEPING
+	SLEEPING,
+	DEAD,
+	DONE
 } STATUS;
 
 typedef struct s_fork
 {
 	int		index;
-	t_bool	active;
 	pthread_mutex_t	mutex;
-	struct s_fork	*prev;
 	struct s_fork	*next;
 } fork_node;
 
@@ -35,15 +30,15 @@ typedef struct s_philo
 	STATUS		status;
 	int		num_philos;
 	int		time_die;
-	int		time_from_eat;
+	long	time_last_eat;
 	int		time_eat;
 	int		time_sleep;
 	int		num_meals;
-	int		actual_meal;
 	fork_node	*right_fork;
 	fork_node	*left_fork;
-	struct s_philo	*prev;
 	struct s_philo	*next;
+	pthread_mutex_t	status_mutex;
+	int		stop_sim;
 } philo_node;
 
 typedef struct s_data
@@ -58,6 +53,7 @@ typedef struct s_data
 } t_data;
 
 void	initializer(int argc, char **argv, t_data *data);
+void	stop_simulation(void *first);
 
 /*UTILS*/
 int	ft_atoi(const char *str);
@@ -74,5 +70,20 @@ philo_node	*create_philo_node(int index, t_data *data);
 void				add_philo_node(philo_node **lst, philo_node *new);
 philo_node	*last_philo_node(philo_node *lst);
 void				free_philo_list(philo_node *philos);
+
+/*ACTIONS*/
+void	p_eat(void *philo);
+void	p_sleep(void *philo);
+
+/*STATUS CHANGERS*/
+void	take_fork_ts(philo_node *p);
+void	is_eating_ts(philo_node *p);
+void	is_sleeping_ts(philo_node *p);
+void	is_thinking_ts(philo_node *p);
+void	died_ts(philo_node *p);
+void	has_done_ts(philo_node *p);
+
+/*CHECKERS*/
+int	check_death(philo_node *p);
 
 #endif
