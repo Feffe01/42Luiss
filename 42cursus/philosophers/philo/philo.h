@@ -84,6 +84,8 @@ void	died_ts(philo_node *p);
 void	has_done_ts(philo_node *p);
 
 /*CHECKERS*/
-int	check_death(philo_node *p);
+int	check_end(philo_node *p);
+int	check_death(void *first);
+int	check_done(void *first);
 
 #endif

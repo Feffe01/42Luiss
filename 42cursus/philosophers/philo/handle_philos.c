@@ -47,7 +47,9 @@ philo_node	*create_philo_node(int index, t_data *data)
 		free(node);
 		return (NULL);
 	}
-	if(index - 1 < 1)
+	if (data->num_philos == 1)
+		node->right_fork = NULL;
+	else if(index == 1)
 		node->right_fork = find_fork_node(data->fst_fork, data->num_philos);
 	else
 		node->right_fork = find_fork_node(data->fst_fork, index - 1);
