@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_forks.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fgiampa <fgiampa@student.42roma.it>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/18 00:31:09 by fgiampa           #+#    #+#             */
+/*   Updated: 2025/04/18 00:50:55 by fgiampa          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-void	free_fork_list(fork_node *forks)
+void	free_fork_list(t_fork *forks)
 {
-	fork_node *temp;
+	t_fork	*temp;
+
 	while (forks)
 	{
 		temp = forks->next;
@@ -12,7 +25,7 @@ void	free_fork_list(fork_node *forks)
 	}
 }
 
-fork_node	*find_fork_node(fork_node *lst, int index)
+t_fork	*find_fork(t_fork *lst, int index)
 {
 	while (lst)
 	{
@@ -23,7 +36,7 @@ fork_node	*find_fork_node(fork_node *lst, int index)
 	return (lst);
 }
 
-fork_node	*last_fork_node(fork_node *lst)
+t_fork	*last_fork(t_fork *lst)
 {
 	while (lst)
 	{
@@ -34,11 +47,11 @@ fork_node	*last_fork_node(fork_node *lst)
 	return (lst);
 }
 
-fork_node	*create_fork_node(int index)
+t_fork	*create_fork(int index)
 {
-	fork_node	*node;
+	t_fork	*node;
 
-	node = (fork_node *)malloc(sizeof(*node));
+	node = (t_fork *)malloc(sizeof(*node));
 	if (!node)
 		return (NULL);
 	node->index = index;
@@ -51,15 +64,15 @@ fork_node	*create_fork_node(int index)
 	return (node);
 }
 
-void	add_fork_node(fork_node **lst, fork_node *new)
+void	add_fork(t_fork **lst, t_fork *new)
 {
-	fork_node	*last;
+	t_fork	*last;
 
 	if (lst)
 	{
 		if (*lst)
 		{
-			last = last_fork_node(*lst);
+			last = last_fork(*lst);
 			last->next = new;
 		}
 		else

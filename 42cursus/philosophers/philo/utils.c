@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fgiampa <fgiampa@student.42roma.it>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/18 00:34:06 by fgiampa           #+#    #+#             */
+/*   Updated: 2025/04/18 00:55:34 by fgiampa          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	stop_simulation(void *first)
 {
-	philo_node *actual;
+	t_philo	*actual;
 
-	actual = (philo_node *)first;
+	actual = (t_philo *)first;
 	while (actual)
 	{
 		pthread_mutex_lock(&(actual->status_mutex));

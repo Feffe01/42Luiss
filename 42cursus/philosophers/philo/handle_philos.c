@@ -1,8 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   handle_philos.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fgiampa <fgiampa@student.42roma.it>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/18 00:31:20 by fgiampa           #+#    #+#             */
+/*   Updated: 2025/04/18 01:08:52 by fgiampa          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-void	free_philo_list(philo_node *philos)
+void	free_philo_list(t_philo *philos)
 {
-	philo_node *temp;
+	t_philo	*temp;
+
 	while (philos)
 	{
 		temp = philos->next;
@@ -11,7 +24,7 @@ void	free_philo_list(philo_node *philos)
 	}
 }
 
-philo_node	*last_philo_node(philo_node *lst)
+t_philo	*last_philo(t_philo *lst)
 {
 	while (lst)
 	{
@@ -22,51 +35,51 @@ philo_node	*last_philo_node(philo_node *lst)
 	return (lst);
 }
 
-philo_node	*create_philo_node(int index, t_data *data)
+void	assign_forks(t_philo *node, t_data *data)
 {
-	philo_node	*node;
-	struct timeval	time;
-	long						timestamp_ms;
+	if (data->num_philos == 1)
+		node->right_fork = NULL;
+	else if (node->index == 1)
+		node->right_fork = find_fork(data->fst_fork, data->num_philos);
+	else
+		node->right_fork = find_fork(data->fst_fork, node->index - 1);
+	node->left_fork = find_fork(data->fst_fork, node->index);
+}
 
-	node = (philo_node *)malloc(sizeof(*node));
+t_philo	*create_philo(int index, t_data *data)
+{
+	t_philo			*node;
+	struct timeval	time;
+
+	node = (t_philo *)malloc(sizeof(*node));
 	if (!node)
 		return (NULL);
+	if (pthread_mutex_init(&(node->status_mutex), NULL) != 0)
+		return (free(node), NULL);
 	node->index = index;
 	node->status = SLEEPING;
 	node->num_philos = data->num_philos;
 	node->time_die = data->time_die;
 	gettimeofday(&time, NULL);
-	timestamp_ms = time.tv_sec * 1000 + time.tv_usec / 1000;
-	node->time_last_eat = timestamp_ms;
+	node->time_last_eat = time.tv_sec * 1000 + time.tv_usec / 1000;
 	node->time_eat = data->time_eat;
 	node->time_sleep = data->time_sleep;
 	node->num_meals = data->num_meals;
 	node->stop_sim = 0;
-	if (pthread_mutex_init(&(node->status_mutex), NULL) != 0)
-	{
-		free(node);
-		return (NULL);
-	}
-	if (data->num_philos == 1)
-		node->right_fork = NULL;
-	else if(index == 1)
-		node->right_fork = find_fork_node(data->fst_fork, data->num_philos);
-	else
-		node->right_fork = find_fork_node(data->fst_fork, index - 1);
-	node->left_fork = find_fork_node(data->fst_fork, index);
 	node->next = NULL;
+	assign_forks(node, data);
 	return (node);
 }
 
-void	add_philo_node(philo_node **lst, philo_node *new)
+void	add_philo(t_philo **lst, t_philo *new)
 {
-	philo_node	*last;
+	t_philo		*last;
 
 	if (lst)
 	{
 		if (*lst)
 		{
-			last = last_philo_node(*lst);
+			last = last_philo(*lst);
 			last->next = new;
 		}
 		else

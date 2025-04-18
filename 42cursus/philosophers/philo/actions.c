@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   actions.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fgiampa <fgiampa@student.42roma.it>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/18 00:30:31 by fgiampa           #+#    #+#             */
+/*   Updated: 2025/04/18 00:57:02 by fgiampa          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-void	take_fork_ts(philo_node *p)
+void	take_fork_ts(t_philo *p)
 {
 	struct timeval	time;
-	long						timestamp_ms;
+	long			timestamp_ms;
 
 	gettimeofday(&time, NULL);
 	timestamp_ms = time.tv_sec * 1000 + time.tv_usec / 1000;
@@ -15,19 +27,19 @@ void	take_fork_ts(philo_node *p)
 
 void	p_sleep(void *philo)
 {
-	philo_node			*p;
+	t_philo			*p;
 
-	p = (philo_node *)philo;
+	p = (t_philo *)philo;
 	is_sleeping_ts(p);
 	usleep(p->time_sleep * 1000);
 }
 
 void	p_eat(void *philo)
 {
-	philo_node			*p;
+	t_philo			*p;
 	struct timeval	time;
 
-	p = (philo_node *)philo;
+	p = (t_philo *)philo;
 	pthread_mutex_lock(&(p->left_fork->mutex));
 	take_fork_ts(p);
 	if (!p->right_fork)

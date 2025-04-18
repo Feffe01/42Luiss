@@ -1,29 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   initializer.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fgiampa <fgiampa@student.42roma.it>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/18 00:31:30 by fgiampa           #+#    #+#             */
+/*   Updated: 2025/04/18 00:57:38 by fgiampa          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-void initialize_forks(t_data *data, int num_philos)
+void	initialize_forks(t_data *data, int num_philos)
 {
-	fork_node		*new_fork;
-	int					i;
+	t_fork	*new_fork;
+	int		i;
 
 	i = 1;
 	while (i <= num_philos)
 	{
-		new_fork = create_fork_node(i);
-		add_fork_node(&(data->fst_fork), new_fork);
+		new_fork = create_fork(i);
+		add_fork(&(data->fst_fork), new_fork);
 		i++;
 	}
 }
 
-void initialize_philos(t_data *data, int num_philos)
+void	initialize_philos(t_data *data, int num_philos)
 {
-	philo_node		*new_philo;
-	int					i;
+	t_philo	*new_philo;
+	int		i;
 
 	i = 1;
 	while (i <= num_philos)
 	{
-		new_philo = create_philo_node(i, data);
-		add_philo_node(&(data->fst_philo), new_philo);
+		new_philo = create_philo(i, data);
+		add_philo(&(data->fst_philo), new_philo);
 		i++;
 	}
 }
@@ -34,7 +46,7 @@ void	initializer(int argc, char **argv, t_data *data)
 	data->time_die = ft_atoi(argv[2]);
 	data->time_eat = ft_atoi(argv[3]);
 	data->time_sleep = ft_atoi(argv[4]);
-	if(argc == 6)
+	if (argc == 6)
 		data->num_meals = ft_atoi(argv[5]);
 	else
 		data->num_meals = -1;
