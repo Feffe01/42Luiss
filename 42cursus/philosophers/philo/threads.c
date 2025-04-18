@@ -6,7 +6,7 @@
 /*   By: fgiampa <fgiampa@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:11:06 by fgiampa           #+#    #+#             */
-/*   Updated: 2025/04/18 01:28:56 by fgiampa          ###   ########.fr       */
+/*   Updated: 2025/04/18 01:47:13 by fgiampa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,11 @@ void	*philo_routine(void *philo)
 	t_philo			*p;
 
 	p = (t_philo *)philo;
-	while (p->num_meals > 0 || p->num_meals < 0)
+	while (p->num_meals != 0)
 	{
 		p_eat(philo);
-		p->num_meals--;
+		if (p->num_meals > 0)
+			p->num_meals--;
 		if (p->num_meals == 0)
 			has_done(p);
 		if (check_end(p))
