@@ -6,7 +6,7 @@
 /*   By: fgiampa <fgiampa@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 00:33:45 by fgiampa           #+#    #+#             */
-/*   Updated: 2025/04/18 01:14:38 by fgiampa          ###   ########.fr       */
+/*   Updated: 2025/04/23 17:01:13 by fgiampa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ typedef enum e_status
 	EATING,
 	THINKING,
 	SLEEPING,
-	DEAD,
-	DONE
+	DEAD
 }	t_STATUS;
 
 typedef struct s_fork
@@ -50,6 +49,7 @@ typedef struct s_philo
 	t_fork			*left_fork;
 	struct s_philo	*next;
 	pthread_mutex_t	status_mutex;
+	pthread_mutex_t	meals_mutex;
 	int				stop_sim;
 }	t_philo;
 
@@ -93,7 +93,6 @@ void	is_eating_ts(t_philo *p);
 void	is_sleeping_ts(t_philo *p);
 void	is_thinking_ts(t_philo *p);
 void	died_ts(t_philo *p);
-void	has_done(t_philo *p);
 
 /*CHECKERS*/
 int		check_end(t_philo *p);

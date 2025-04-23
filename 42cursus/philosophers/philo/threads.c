@@ -6,7 +6,7 @@
 /*   By: fgiampa <fgiampa@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:11:06 by fgiampa           #+#    #+#             */
-/*   Updated: 2025/04/18 01:47:13 by fgiampa          ###   ########.fr       */
+/*   Updated: 2025/04/23 16:59:44 by fgiampa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,13 @@
 
 void	*check_routine(void *first)
 {
-	int	c;
-
 	while (1)
 	{
-		c = check_death(first);
-		if (c)
+		if (check_death(first))
 			break ;
-		c = check_done(first);
-		if (c)
+		if (check_done(first))
 			break ;
-		usleep(1000);
+		usleep(3000);
 	}
 	stop_simulation(first);
 	return (NULL);
@@ -35,22 +31,22 @@ void	*philo_routine(void *philo)
 	t_philo			*p;
 
 	p = (t_philo *)philo;
-	while (p->num_meals != 0)
+	while (1)
 	{
 		p_eat(philo);
+		pthread_mutex_lock(&(p->meals_mutex));
 		if (p->num_meals > 0)
 			p->num_meals--;
-		if (p->num_meals == 0)
-			has_done(p);
+		pthread_mutex_unlock(&(p->meals_mutex));
 		if (check_end(p))
 			break ;
 		p_sleep(philo);
 		if (check_end(p))
 			break ;
 		is_thinking_ts(p);
-		usleep(1000);
 		if (check_end(p))
 			break ;
+		usleep(1000);
 	}
 	return (NULL);
 }

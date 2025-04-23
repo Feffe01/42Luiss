@@ -6,7 +6,7 @@
 /*   By: fgiampa <fgiampa@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 00:30:55 by fgiampa           #+#    #+#             */
-/*   Updated: 2025/04/18 00:57:49 by fgiampa          ###   ########.fr       */
+/*   Updated: 2025/04/23 17:00:39 by fgiampa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ int	check_done(void *first)
 	actual = (t_philo *)first;
 	while (actual)
 	{
-		pthread_mutex_lock(&(actual->status_mutex));
-		if (actual->status != DONE)
+		pthread_mutex_lock(&(actual->meals_mutex));
+		if (actual->num_meals != 0)
 		{
-			pthread_mutex_unlock(&(actual->status_mutex));
+			pthread_mutex_unlock(&(actual->meals_mutex));
 			return (0);
 		}
-		pthread_mutex_unlock(&(actual->status_mutex));
+		pthread_mutex_unlock(&(actual->meals_mutex));
 		actual = actual->next;
 	}
 	return (1);

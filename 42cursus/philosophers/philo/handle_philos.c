@@ -6,7 +6,7 @@
 /*   By: fgiampa <fgiampa@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 00:31:20 by fgiampa           #+#    #+#             */
-/*   Updated: 2025/04/18 01:08:52 by fgiampa          ###   ########.fr       */
+/*   Updated: 2025/04/23 16:58:02 by fgiampa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	free_philo_list(t_philo *philos)
 	while (philos)
 	{
 		temp = philos->next;
+		pthread_mutex_destroy(&(philos->status_mutex));
+		pthread_mutex_destroy(&(philos->meals_mutex));
 		free(philos);
 		philos = temp;
 	}
@@ -55,6 +57,8 @@ t_philo	*create_philo(int index, t_data *data)
 	if (!node)
 		return (NULL);
 	if (pthread_mutex_init(&(node->status_mutex), NULL) != 0)
+		return (free(node), NULL);
+	if (pthread_mutex_init(&(node->meals_mutex), NULL) != 0)
 		return (free(node), NULL);
 	node->index = index;
 	node->status = SLEEPING;

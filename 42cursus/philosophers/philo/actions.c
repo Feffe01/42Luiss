@@ -6,7 +6,7 @@
 /*   By: fgiampa <fgiampa@student.42roma.it>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 00:30:31 by fgiampa           #+#    #+#             */
-/*   Updated: 2025/04/18 00:57:02 by fgiampa          ###   ########.fr       */
+/*   Updated: 2025/04/23 17:36:10 by fgiampa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	take_fork_ts(t_philo *p)
 	struct timeval	time;
 	long			timestamp_ms;
 
-	gettimeofday(&time, NULL);
-	timestamp_ms = time.tv_sec * 1000 + time.tv_usec / 1000;
-	pthread_mutex_lock(&(p->status_mutex));
-	if (p->status != DEAD && p->stop_sim != 1)
+	if (check_end(p) == 0)
+	{
+		gettimeofday(&time, NULL);
+		timestamp_ms = time.tv_sec * 1000 + time.tv_usec / 1000;
 		printf("%ld %d has taken a fork\n", timestamp_ms, p->index);
-	pthread_mutex_unlock(&(p->status_mutex));
+	}
 }
 
 void	p_sleep(void *philo)
@@ -40,15 +40,14 @@ void	p_eat(void *philo)
 	struct timeval	time;
 
 	p = (t_philo *)philo;
-	pthread_mutex_lock(&(p->left_fork->mutex));
-	take_fork_ts(p);
 	if (!p->right_fork)
 	{
-		pthread_mutex_unlock(&(p->left_fork->mutex));
 		usleep((p->time_die + 2) * 1000);
 		return ;
 	}
 	pthread_mutex_lock(&(p->right_fork->mutex));
+	take_fork_ts(p);
+	pthread_mutex_lock(&(p->left_fork->mutex));
 	take_fork_ts(p);
 	is_eating_ts(p);
 	usleep(p->time_eat * 1000);
