@@ -64,9 +64,7 @@ make fclean # Removes object files and the binary
 
 ## 🔬 Testing
 
-**💡 Tip:** To better understand how the program behaves over time, you can use this online visualizer:
-
-🔗 [Philosophers Visualizer](https://nafuka11.github.io/philosophers-visualizer/)
+**💡 Tip:** To better understand how the program behaves over time, you can use this online visualizer: 🔗 [Philosophers Visualizer](https://nafuka11.github.io/philosophers-visualizer/)
 
 Use `valgrind` to check for memory leaks:
 
